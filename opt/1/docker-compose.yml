@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  web:
+
+    image: webdevops/php-apache:alpine-php7
+    ports:
+      - "80:80"
+    volumes:
+      - app:/app
+
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+
+  phpmyadmin:
+
+    image: phpmyadmin/phpmyadmin
+    environment:
+      MYSQL_ROOT_PASSWORD: "Senha123"
+      PMA_HOST: "3.91.201.227"
+
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+    ports:
+      - "8080:80"
+    volumes:
+      - php-ini:/usr/local/etc/php/conf.d/php-phpmyadmin.ini
+
+
+
+volumes:
+
+  app:
+  php-ini:
